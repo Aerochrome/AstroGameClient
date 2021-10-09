@@ -2,6 +2,7 @@ import { RenderController } from "./RenderController"
 
 export class GameController {
     renderController: RenderController
+    debugMode = false;
     
     constructor() {
         console.log("Starting up game ...")
