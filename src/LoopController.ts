@@ -1,6 +1,6 @@
 import { GameController } from './GameController'
 
-export class RenderController {
+export class LoopController {
 
     readonly MS_PER_UPDATE: number = 33.33; // 30 FPS
 

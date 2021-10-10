@@ -1,21 +1,16 @@
-import { RenderController } from "./RenderController"
+import { LoopController } from "./LoopController"
 
 export class GameController {
-    renderController: RenderController
+    loopController: LoopController
     debugMode = false;
     
     constructor() {
         console.log("Starting up game ...")
         
         this.init()
-        //this.initGameLoop()
     }
 
     init() {
-        this.renderController = new RenderController(this)
-    }
-
-    initGameLoop() {
-        window.requestAnimationFrame(this.renderController.gameLoop)
+        this.loopController = new LoopController(this)
     }
 }
