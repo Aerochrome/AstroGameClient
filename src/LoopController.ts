@@ -1,10 +1,14 @@
+import { Spaceship } from './Classes/Spaceship';
 import { GameController } from './GameController'
+import { UpdateController } from './UpdateController';
 
 export class LoopController {
 
     readonly MS_PER_UPDATE: number = 33.33; // 30 FPS
 
     gamecontroller: GameController
+    updateController: UpdateController
+
     canvasElement: HTMLCanvasElement|null
     canvasContext: CanvasRenderingContext2D|null
 
@@ -14,6 +18,7 @@ export class LoopController {
 
     constructor(gamecontroller: GameController) {
         this.gamecontroller = gamecontroller
+        this.updateController = new UpdateController(this);
   
         this.initCanvas()
         this.initGameLoop()
@@ -51,6 +56,7 @@ export class LoopController {
 
     update() {
         if (this.gamecontroller.debugMode) console.log("I should run on 30 fps");
+        this.updateController.performUpdate();
     }
 
     render(delta: number) {
@@ -68,6 +74,31 @@ export class LoopController {
         this.canvasContext!.fillText("FPS: " + fps, 10, 30);
         this.canvasContext!.fillText("Seconds passed: " + this.elapsed, 10, 60);
         this.canvasContext!.fillText("Lag: " + this.lag, 10, 90);
+        
         // draw entities
+        this.renderSpaceships()
+    }
+
+    renderSpaceships() {
+
+        //console.log(this.gamecontroller.entityController.spaceships)
+        this.gamecontroller.entityController.spaceships.forEach((spaceship: Spaceship) => {
+            this.canvasContext!.save();
+            this.canvasContext!.strokeStyle = 'white'
+            this.canvasContext!.lineWidth = 2
+            
+            this.canvasContext!.translate(spaceship.position.x, spaceship.position.y)
+            this.canvasContext!.rotate((Math.PI/180) * spaceship.rotation)
+            this.canvasContext!.beginPath()
+            this.canvasContext!.moveTo(0, 0)
+            this.canvasContext!.lineTo(10, 10)
+            this.canvasContext!.lineTo(0, -20)
+            this.canvasContext!.lineTo(-10, 10)
+            this.canvasContext!.lineTo(0, 0)
+            this.canvasContext!.closePath()
+            this.canvasContext!.stroke()
+            
+            this.canvasContext!.restore()
+        });
     }
 }
