@@ -1,5 +1,4 @@
 import { Spaceship } from "./Classes/Spaceship";
-import { Vector2D } from "./Interfaces/Vector2D";
 import { LoopController } from "./LoopController";
 
 export class UpdateController {
@@ -26,22 +25,23 @@ export class UpdateController {
             spaceship.position.x += spaceship.velocityVector.x
             spaceship.position.y += spaceship.velocityVector.y
           
-            // Detect boundaries
-            if (spaceship.position.x > this.loopController.canvasElement!.width) {
-              spaceship.position.x -= this.loopController.canvasElement!.width
+            // Detect boundaries (and bounce off)
+            if ((spaceship.position.x > this.loopController.canvasElement!.width) || spaceship.position.x < 0) {
+              spaceship.velocityVector.x *= -1
+              spaceship.rotation = this.findAngle(spaceship.velocityVector.x, spaceship.velocityVector.y)
             }
-            else if (spaceship.position.x < 0) {
-              spaceship.position.x += this.loopController.canvasElement!.width
-            }
-            if (spaceship.position.y > this.loopController.canvasElement!.height) {
-              spaceship.position.y -= this.loopController.canvasElement!.height
-            }
-            else if (spaceship.position.y < 0) {
-              spaceship.position.y += this.loopController.canvasElement!.height
+
+            if ((spaceship.position.y > this.loopController.canvasElement!.height) || spaceship.position.y < 0) {
+              spaceship.velocityVector.y *= -1
+              spaceship.rotation = this.findAngle(spaceship.velocityVector.x, spaceship.velocityVector.y)
             }
 
         })
+    }
 
-
+    findAngle(x: number, y: number) {
+      let angle = Math.atan2(y, x);
+      let degrees = 180 * angle / Math.PI;
+      return (360 + Math.round(degrees)) % 360 + 90;
     }
 }
