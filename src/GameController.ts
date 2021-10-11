@@ -22,8 +22,9 @@ export class GameController {
     }
 
     initTestSpaceships() {
-        for(let i=1; i<=3; i++) {
-            let ship = new Spaceship(0, i*100, i*100, i*57);
+        for(let i=1; i<=5; i++) {
+            let randomPos = this.randomPlaceInCanvas();
+            let ship = new Spaceship(0, randomPos.x, randomPos.y, this.randomIntInInterval(0, 360));
 
             let accelerationVector: Vector2D = {
                 x: this.loopController.MS_PER_UPDATE * 0.2 * Math.cos((ship.rotation-90) * (Math.PI/180)),
@@ -39,5 +40,16 @@ export class GameController {
         //this.entityController.addSpaceship(new Spaceship(0, 350, 350, 90))
         //this.entityController.addSpaceship(new Spaceship(0, 450, 350, 180))
         //this.entityController.addSpaceship(new Spaceship(0, 550, 350, 0))
+    }
+
+    randomPlaceInCanvas() { // min and max included 
+        return {
+            x: this.randomIntInInterval(0, this.loopController.canvasElement!.width),
+            y: this.randomIntInInterval(0, this.loopController.canvasElement!.height)
+        }
+    }
+
+    randomIntInInterval(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min + 1) + min)
     }
 }
