@@ -14,6 +14,7 @@ export class GameController {
         this.init()
 
         this.initTestSpaceships()
+        this.initUserShip()
     }
 
     init() {
@@ -36,10 +37,12 @@ export class GameController {
 
             this.entityController.addSpaceship(ship)
         }
+    }
 
-        //this.entityController.addSpaceship(new Spaceship(0, 350, 350, 90))
-        //this.entityController.addSpaceship(new Spaceship(0, 450, 350, 180))
-        //this.entityController.addSpaceship(new Spaceship(0, 550, 350, 0))
+    initUserShip() {
+        let ship = new Spaceship(0, this.loopController.canvasElement!.width/2, this.loopController.canvasElement!.height/2, 0, 'gray')
+        this.entityController.addSpaceship(ship)
+        this.entityController.userShip = ship
     }
 
     randomPlaceInCanvas() { // min and max included 

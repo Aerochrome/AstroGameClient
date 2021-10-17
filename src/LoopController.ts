@@ -1,6 +1,7 @@
 import { Spaceship } from './Classes/Spaceship';
 import { GameController } from './GameController'
 import { UpdateController } from './UpdateController';
+import { UserInputController } from './UserInputController';
 
 export class LoopController {
 
@@ -8,6 +9,7 @@ export class LoopController {
 
     gamecontroller: GameController
     updateController: UpdateController
+    userInputController: UserInputController
 
     canvasElement: HTMLCanvasElement|null
     canvasContext: CanvasRenderingContext2D|null
@@ -19,6 +21,7 @@ export class LoopController {
     constructor(gamecontroller: GameController) {
         this.gamecontroller = gamecontroller
         this.updateController = new UpdateController(this);
+        this.userInputController = new UserInputController(this);
   
         this.initCanvas()
         this.initGameLoop()
@@ -46,8 +49,6 @@ export class LoopController {
             this.update()
             this.lag -= this.MS_PER_UPDATE
         }
-
-
 
         this.render(timestamp)
 
@@ -84,7 +85,7 @@ export class LoopController {
         //console.log(this.gamecontroller.entityController.spaceships)
         this.gamecontroller.entityController.spaceships.forEach((spaceship: Spaceship) => {
             this.canvasContext!.save();
-            this.canvasContext!.strokeStyle = 'white'
+            this.canvasContext!.strokeStyle = spaceship.color
             this.canvasContext!.lineWidth = 2
             
             this.canvasContext!.translate(spaceship.position.x, spaceship.position.y)
