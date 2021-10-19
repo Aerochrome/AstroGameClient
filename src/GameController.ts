@@ -2,10 +2,12 @@ import { Spaceship } from "./Classes/Spaceship";
 import { EntityController } from "./EntityController";
 import { Vector2D } from "./Interfaces/Vector2D";
 import { LoopController } from "./LoopController"
+import { NetworkController } from "./NetworkController";
 
 export class GameController {
     loopController: LoopController
     entityController: EntityController
+    networkController: NetworkController
 
     debugMode = false;
     
@@ -20,6 +22,7 @@ export class GameController {
     init() {
         this.entityController = new EntityController(this)
         this.loopController = new LoopController(this)
+        this.networkController = new NetworkController(this)
     }
 
     initTestSpaceships() {
